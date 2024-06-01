@@ -7,7 +7,10 @@ const code__result = require('./output/output');
 // Middlewares
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    'credentials' : true,
+    'origin' : '*'
+}));
 
 // Routes
 app.get('/',(req, res)=>{
@@ -22,7 +25,6 @@ app.post("/compile",(req,res)=>{
         "Empty Code Body"})
     }
     else{
-    
         code__result(language,code,input)
         .then((response)=>
                {
