@@ -7,10 +7,7 @@ const code__result = require('./output/output');
 // Middlewares
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use(cors({
-    'credentials' : true,
-    'origin' : '*'
-}));
+app.use(cors({}));
 
 // Routes
 app.get('/',(req, res)=>{
