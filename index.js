@@ -1,41 +1,36 @@
 // Importing Modules
-const express = require('express') ;
-const app = express() ;
+const express = require('express');
 const cors = require('cors');
-const code__result = require('./output/output');
+const CompileService = require('./services/compile');
+
+// Initialize Express App
+const app = express();
 
 // Middlewares
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors({}));
+app.use(cors());
 
 // Routes
-app.get('/',(req, res)=>{
+app.get('/', (req, res) => {
   res.send('Welcome to Online Compiler');
-})
+});
 
-app.post("/compile",(req,res)=>{
-    let { language = "cpp", code,input } = req.body ;
+app.post('/compile', async (req, res) => {
+  const { language = 'cpp', code, input } = req.body;
+  if (!code) {
+    return res.status(400).json({ success: false, error: 'Empty Code Body' });
+  }
+  try {
+    const response = await CompileService(language, code, input);
+    return res.status(200).json({ success: true, result: response });
+  } catch (error) {
+    return res.status(400).json({ success: false, error });
+  }
+});
 
-    if( code === undefined) {
-        return res.status(400).json({success : false, error : 
-        "Empty Code Body"})
-    }
-    else{
-        code__result(language,code,input)
-        .then((response)=>
-               {
-                   return res.status(200).json({success:true,result:response})
-                })
-        .catch(err => { 
-                   return res.status(400).json({success : false, error : err});
-                })              
-    }
-    
-})
-
-const PORT = process.env.PORT || 8080
 // Server
-app.listen(PORT,()=>{
-    console.log('Server is Healthy')
-})
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
