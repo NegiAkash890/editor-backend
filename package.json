@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "build": "netlify-lambda build src",
-    "start": "NODE_ENV=development netlify-lambda serve src"
+    "start": "netlify-lambda serve src",
+    "build": "netlify-lambda build src"
   },
   "keywords": [],
   "author": "",
@@ -17,10 +17,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.17.1",
-    "netlify-lambda": "^1.4.3",
-    "serverless-http": "^1.9.1"
+    "netlify-lambda": "^2.0.16",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "terser-webpack-plugin": "^5.3.10",
+    "webpack": "^5.92.1"
   }
 }
